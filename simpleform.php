@@ -8,10 +8,10 @@ $list_of_recipes = getRecipes();
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-addRecipe($_POST['RecipeID'],$_POST['Recipe_Directions']);
+
   if ($_POST['btnAction'] =='Add') 
   {
-      addRecipe($_POST['RecipeID'],$_POST['Recipe_Directions']);
+      addRecipe($_POST['Recipe_Directions']);
 
   }
 }
@@ -20,11 +20,6 @@ addRecipe($_POST['RecipeID'],$_POST['Recipe_Directions']);
   <h1>Recipes</h1>  
 
 <form name="mainForm" action="simpleform.php" method="post">
-  <div class="row mb-3 mx-3">
-    RecipeID:
-    <input type="text" class="form-control" name="RecipeID" required
-    />            
-  </div> 
   <div class="row mb-3 mx-3">
     Recipe Direction:
     <input type="text" class="form-control" name="Recipe_Directions" required
