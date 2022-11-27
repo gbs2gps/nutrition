@@ -1,11 +1,10 @@
 <?php
-function addRecipe($RecipeID,$Recipe_Directions)
+function addRecipe($Recipe_Directions)
 {
     global $db;
-    $query = "INSERT INTO Recipe VALUES (:RecipeID,:Recipe_Directions)";  
+    $query = "INSERT INTO Recipe(Recipe_Directions) VALUES (:Recipe_Directions)";  
     try {
         $statement = $db->prepare($query);
-	$statement->bindValue(':RecipeID', $RecipeID);
         $statement->bindValue(':Recipe_Directions', $Recipe_Directions);
         $statement->execute();
         $statement->closeCursor();
@@ -31,7 +30,7 @@ function addRecipe($RecipeID,$Recipe_Directions)
 function getRecipes()
 {
     global $db; 
-    $query = "SELECT * FROM recipe";
+    $query = "SELECT * FROM Recipe";
     $statement = $db->prepare($query);
     $statement->execute();
     $result = $statement->fetchAll();   // fetch()
