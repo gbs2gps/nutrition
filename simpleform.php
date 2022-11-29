@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   else if ($_POST['btnAction'] == 'Update')
   {
      $_SESSION['recipeID'] = $_POST['recipe_to_update'];
-     $recipe_print = getRecipeByID($_POST['recipe_to_update']);
+     getRecipeByID($_POST['recipe_to_update']);
   }
   else if ($_POST['btnAction'] == 'Confirm update')
   {
@@ -33,6 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
      deleteRecipe($_POST['recipe_to_delete']);
      $list_of_recipes = getRecipes();
+  }
+  else if ($_POST['btnAction'] == 'Search')
+  {
+     $recipe_print = getRecipeByID($_POST['RecipeID']);
   }
 }
 ?>
@@ -61,10 +65,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <input type="submit" value="Add" name="btnAction" class="btn btn-dark" 
            title="Insert a Recipe" />
     <input type="submit" value="Confirm update" name="btnAction" class="btn btn-primary" 
-           title="Update a friend" />  
+           title="Update a Recipe" />  
   </div>  
 
-</form>       
+</form>
+<form name="mainsForm" action="simpleform.php" method="post">
+  <div class="row mb-3 mx-3">
+    RecipeID:
+    <input type="text" class="form-control" name="RecipeID" required
+    />            
+  </div>  
+  <div class="row mb-3 mx-3">    
+    <input type="submit" value="Search" name="btnAction" class="btn btn-dark" 
+           title="Search" /> 
+  </div>  
+
+</form>
+<?php echo $recipe_print['RecipeID'];?>
+<?php echo $recipe_print['Recipe_Directions'];?>
 <h3>List of recipes</h3>
 <div class="row justify-content-center">  
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
@@ -101,4 +119,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   </tr>
 <?php endforeach; ?>
 </table>
-</div>  
+</div>   
