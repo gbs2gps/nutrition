@@ -30,13 +30,49 @@ function addRecipe($Recipe_Directions)
 function getRecipes()
 {
     global $db; 
-    $query = "SELECT * FROM Recipe";
+    $query = "SELECT RecipeID,Recipe_Directions FROM Recipe";
     $statement = $db->prepare($query);
-    $statement->execute();
+     $statement->execute();
     $result = $statement->fetchAll();   // fetch()
     $statement->closeCursor();
     return $result;
 }
+function getRecipeByID($RecipeID)  
+{
+    global $db;
+    $query = "SELECT * FROM Recipe where RecipeID = :RecipeID";
 
+    $statement = $db->prepare($query);
+    $statement->bindValue(':RecipeID', $RecipeID);
+    $statement->execute();
+    $result = $statement->fetch(); 
+    $statement->closeCursor();    
+    return $result;
+}
+function updateRecipe($RecipeID, $Recipe_Directions)
+{
+    // get instance of PDO
+    // prepare statement
+    //  1) prepare 
+    //  2) bindValue, execute
+    global $db;
+    $query = "UPDATE Recipe SET Recipe_Directions=:Recipe_Directions WHERE RecipeID=:RecipeID";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':RecipeID', $RecipeID);
+    $statement->bindValue(':Recipe_Directions', $Recipe_Directions);
+    $statement->execute();
+    $statement->closeCursor();
 
+    // $statement->query()
+    
+}
+function deleteRecipe($RecipeID)
+{
+    global $db;
+    $query = "DELETE FROM Recipe WHERE RecipeID=:RecipeID";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':RecipeID', $RecipeID);
+    $statement->execute();
+    $statement->closeCursor();
+}
 ?>
