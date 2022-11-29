@@ -30,19 +30,19 @@
 ////////////////////////////////////////////
 
 /** F22, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on local XAMPP) **/
-$username = 'root';
-$password = '';
-$host = 'localhost:3306';
-$dbname = 'FoodProject';
-$dsn = "mysql:host=$host;dbname=$dbname";  
+//$username = 'root';
+//$password = '';
+//$host = 'localhost:3306';
+//$dbname = 'FoodProject';
+//$dsn = "mysql:host=$host;dbname=$dbname";  
 ////////////////////////////////////////////
 
 /** F22, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on CS server) **/
-// $username = 'your-computingID'; 
-// $password = 'your-mysql-password';
-// $host = 'mysql01.cs.virginia.edu';
-// $dbname = 'your-computingID';
-// $dsn = "mysql:host=$host;dbname=$dbname";
+ $username = 'ajr2pc'; 
+ $password = 'Fall2022';
+ $host = 'mysql01.cs.virginia.edu';
+ $dbname = 'ajr2pc';
+ $dsn = "mysql:host=$host;dbname=$dbname";
 
 ////////////////////////////////////////////
 
