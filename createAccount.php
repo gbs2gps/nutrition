@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="admin.css">
 </head>
 
-        <div class="logo-dark">Welcome to Nutrilytics! Please Create an Account</div>
+        <div class="logo-dark">Welcome to Nutrilitics! Please Create an Account</div>
          
         <input class="dark-light" type="checkbox" id="dark-light" name="dark-light"/>
             <label for="dark-light"></label>
