@@ -12,11 +12,11 @@
                     <div class="section-dropdown"> 
                         <a href="index.php">Profile <i class="uil uil-arrow-right"></i></a>
                         <input class="dropdown-sub" type="checkbox" id="dropdown-sub" name="dropdown-sub"/>
-                            <a href="mealForm.php">Meal <i class="uil uil-arrow-right"></i></a> 
+                            <a href="meals.php">Meal <i class="uil uil-arrow-right"></i></a> 
                             <label class="for-dropdown-sub" for="dropdown-sub">All Meals<i class="uil uil-plus"></i></label> <br>
                             <label class="for-dropdown-sub" for="dropdown-sub">Your Meals<i class="uil uil-plus"></i></label>
                         </input>
-                        <a href="recipeForm.php">Recipes <i class="uil uil-arrow-right"></i></a> 
+                        <a href="recipes.php">Recipes <i class="uil uil-arrow-right"></i></a> 
                         <a href="ingredients.php">Ingredients <i class="uil uil-arrow-right"></i></a> 
                     </div>
                 </input>
@@ -25,14 +25,14 @@
 
 <?php
 require("connect-db.php");   
-require("recipeMethod.php");
+require("ingredientMethod.php");
 // include("connect-db.php");
 session_start();
-if( empty($_SESSION['recipeID']) ) {
-     $_SESSION['recipeID'] = null;
+if( empty($_SESSION['IngredientID']) ) {
+     $_SESSION['IngredientID'] = null;
 }
-$list_of_recipes = getRecipes();
-$recipe_print = null;
+$list_of_ingredient = getIngredient();
+$ingredient_print = null;
 ?>
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -40,28 +40,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
   if ($_POST['btnAction'] =='Add') 
   {
-      addRecipe($_POST['Recipe_Directions']);
-      $list_of_recipes = getRecipes();
+      addIngredient($_POST['Ingredient_Name']);
+      $list_of_ingredient = getIngredient();
   }
   else if ($_POST['btnAction'] == 'Update')
   {
-     $_SESSION['recipeID'] = $_POST['recipe_to_update'];
-     getRecipeByID($_POST['recipe_to_update']);
+     $_SESSION['IngredientID'] = $_POST['ingredient_to_update'];
+     getIngredientByID($_POST['ingredient_to_update']);
   }
   else if ($_POST['btnAction'] == 'Confirm update')
   {
-     updateRecipe($_SESSION['recipeID'],$_POST['Recipe_Directions']);
-     $_SESSION['recipeID'] = null;
-     $list_of_recipes = getRecipes();
+     updateIngredient($_SESSION['IngredientID'],$_POST['Ingredient_Name']);
+     $_SESSION['rIngredientID'] = null;
+     $list_of_ingredient = getIngredient();
   }
   else if ($_POST['btnAction'] == 'Delete')
   {
-     deleteRecipe($_POST['recipe_to_delete']);
-     $list_of_recipes = getRecipes();
+     deleteIngredient($_POST['ingredient_to_delete']);
+     $list_of_ingredient = getIngredient();
   }
   else if ($_POST['btnAction'] == 'Search')
   {
-     $recipe_print = getRecipeByID($_POST['RecipeID']);
+     $ingredient_print = getIngredientByID($_POST['IngredientID']);
   }
 }
 ?>
@@ -80,24 +80,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <div class="container">
   
 
-<form name="mainForm" action="simpleform.php" method="post">
+<form name="mainForm" action="ingredients.php" method="post">
   <div class="row mb-3 mx-3">
-    Recipe Direction:
-    <input type="text" class="form-control" name="Recipe_Directions" required
+    Ingredient Name:
+    <input type="text" class="form-control" name="Ingredient_Name" required
     />            
   </div>  
   <div class="row mb-3 mx-3">    
     <input type="submit" value="Add" name="btnAction" class="btn btn-dark" 
-           title="Insert a Recipe" />
+           title="Insert a Ingredient" />
     <input type="submit" value="Confirm update" name="btnAction" class="btn btn-primary" 
-           title="Update a Recipe" />  
+           title="Update a Ingredient" />  
   </div>  
 
 </form>
-<form name="mainsForm" action="simpleform.php" method="post">
+<form name="mainsForm" action="ingredients.php" method="post">
   <div class="row mb-3 mx-3">
-    RecipeID:
-    <input type="text" class="form-control" name="RecipeID" required
+    IngredientID:
+    <input type="text" class="form-control" name="IngredientID" required
     />            
   </div>  
   <div class="row mb-3 mx-3">    
@@ -106,38 +106,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   </div>  
 
 </form>
-<?php echo $recipe_print['RecipeID'];?> <br>
-<?php echo $recipe_print['Recipe_Directions'];?>
-<h3>List of recipes</h3>
+<?php echo $ingredient_print['IngredientID'];?> <br>
+<?php echo $ingredient_print['Ingredient_Name'];?>
+<h3>List of Ingredients</h3>
 <div class="row justify-content-center">  
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
   <thead>
   <tr style="background-color:#091745">
-    <th width="30%"><b>Recipe ID</b></th>
-    <th width="30%"><b>Recipe Directions</b></th>
+    <th width="30%"><b>IngredientID</b></th>
+    <th width="30%"><b>Ingredient Name</b></th>
         <th><b>Update?</b></th>
     <th><b>Delete?</b></th>
   </tr>
   </thead>
-<?php foreach ($list_of_recipes as $recipe_info): ?>
+<?php foreach ($list_of_ingredient as $Ingredient_info): ?>
   <tr>
-     <td><?php echo $recipe_info['RecipeID']; ?></td>
-     <td><?php echo $recipe_info['Recipe_Directions']; ?></td>
+     <td><?php echo $Ingredient_info['IngredientID']; ?></td>
+     <td><?php echo $Ingredient_info['Ingredient_Name']; ?></td>
      <td>
-             <form action="simpleform.php" method="post">
+             <form action="ingredients.php" method="post">
           <input type="submit" value="Update" name="btnAction" class="btn btn-primary" 
-                title="Click to update this recipe" />
-          <input type="hidden" name="recipe_to_update" 
-                value="<?php echo $recipe_info['RecipeID']; ?>"
+                title="Click to update this Ingredient" />
+          <input type="hidden" name="ingredient_to_update" 
+                value="<?php echo $Ingredient_info['IngredientID']; ?>"
           />                
         </form>
 	     </td>
 	          <td>
-             <form action="simpleform.php" method="post">
+             <form action="ingredients.php" method="post">
           <input type="submit" value="Delete" name="btnAction" class="btn btn-primary" 
-                title="Click to delete this recipe" />
-          <input type="hidden" name="recipe_to_delete" 
-                value="<?php echo $recipe_info['RecipeID']; ?>"
+                title="Click to delete this Ingredient" />
+          <input type="hidden" name="ingredient_to_delete" 
+                value="<?php echo $Ingredient_info['IngredientID']; ?>"
           />                
         </form>
 	     </td>
