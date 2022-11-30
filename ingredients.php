@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <html>
 <head>
 <div class=container-4>
-  <h2>Add or Update a Ingredient</h2> 
+  <h2>Add or Update an Ingredient</h2> 
 </head>
   
 
