@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   </div>  
 
 </form>
-<form name="mainForm" action="recipes.php" method="post">
+<form name="mainForm" action="recipeForm.php" method="post">
   <div class="row mb-3 mx-3">
     RecipeID:
     <input type="text" class="form-control" name="RecipeID" required
@@ -144,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
      <td><?php echo $recipe_info['RecipeID']; ?></td>
      <td><?php echo $recipe_info['Recipe_Directions']; ?></td>
      <td>
-             <form action="recipes.php" method="post">
+             <form action="recipeForm.php" method="post">
           <input type="submit" value="Update" name="btnAction" class="button-orange" 
                 title="Click to update this recipe" />
           <input type="hidden" name="recipe_to_update" 
@@ -153,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         </form>
 	     </td>
 	          <td>
-             <form action="recipes.php" method="post">
+             <form action="recipeForm.php" method="post">
           <input type="submit" value="Delete" name="btnAction" class="button-orange" 
                 title="Click to delete this recipe" />
           <input type="hidden" name="recipe_to_delete" 
