@@ -11,7 +11,7 @@
 
   	<div class="sec-center"> 	
 	  	<input class="dropdown" type="checkbox" id="dropdown" name="dropdown"/>
-	  	<label class="for-dropdown" for="dropdown">Nutrilytics Menu <i class="uil uil-arrow-down"></i></label>
+	  	<label class="for-dropdown" for="dropdown">Nutrilitics Menu <i class="uil uil-arrow-down"></i></label>
   		<div class="section-dropdown"> 
   			<a href="index.php">Home</a>
 		  	<input class="dropdown-sub" type="checkbox" id="dropdown-sub" name="dropdown-sub"/>
