@@ -1,33 +1,26 @@
 <head>
-    <title>Nutrilytics</title>
+    <title>Nutralytics</title>
     <link rel="stylesheet" href="admin.css">
 </head>
 
-<input class="dark-light" type="checkbox" id="dark-light" name="dark-light"/>
-  	<label for="dark-light"></label>
-
-  	<div class="light-back"></div> 
-
-
-  	<div class="sec-center"> 	
-	  	<input class="dropdown" type="checkbox" id="dropdown" name="dropdown"/>
-	  	<label class="for-dropdown" for="dropdown">Nutrilytics Menu <i class="uil uil-arrow-down"></i></label>
-
-      <div class="section-dropdown"> 
-  			<a href="index.php">Home</a>
-		  	<input class="dropdown-sub" type="checkbox" id="dropdown-sub" name="dropdown-sub"/>
-		  	<label class="for-dropdown-sub" for="dropdown-sub">Meals</label>
-	  		<div class="section-dropdown-sub"> 
-	  			<a href="mealForm.php">All Meals</a>
-	  			<a href="your_meals.php">Your Meals</a>
-	  		</div>
-  			<a href="recipeForm.php">Recipes</a>
-  			<a href="ingredients.php">Ingredients</a>
-			<a href="#">Logout</a>
-
-  		</div>
-  	</div>
-
+        <div class="logo-dark">All Meals</div>
+        <input class="dark-light" type="checkbox" id="dark-light" name="dark-light"/>
+            <label for="dark-light"></label>
+            <div class="sec-center"> 	
+                <input class="dropdown" type="checkbox" id="dropdown" name="dropdown"/>
+                    <label class="for-dropdown" for="dropdown">  Dropdown Menu <i class="uil uil-arrow-down"></i></label>
+                    <div class="section-dropdown"> 
+                        <a href="index.php">Profile <i class="uil uil-arrow-right"></i></a>
+                        <input class="dropdown-sub" type="checkbox" id="dropdown-sub" name="dropdown-sub"/>
+                            <a href="meals.php">Meal <i class="uil uil-arrow-right"></i></a> 
+                            <label class="for-dropdown-sub" for="dropdown-sub">All Meals<i class="uil uil-plus"></i></label> <br>
+                            <label class="for-dropdown-sub" for="dropdown-sub">Your Meals<i class="uil uil-plus"></i></label>
+                        </input>
+                        <a href="recipes.php">Recipes <i class="uil uil-arrow-right"></i></a> 
+                        <a href="ingredients.php">Ingredients <i class="uil uil-arrow-right"></i></a> 
+                    </div>
+                </input>
+            </div>
 <?php
 require("connect-db.php");   
 require("mealMethod.php");
@@ -45,7 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
   if ($_POST['btnAction'] =='Add') 
   {
-      addMeal($_POST['MealName'],$_POST['Calories'],$_POST['Serving_Size']);
+      $MealID = addMeal($_POST['MealName'],$_POST['Calories'],$_POST['Serving_Size']);
+      addAdds($_SESSION['UserID'],$MealID[0]);
       $list_of_meals = getMeals();
   }
   else if ($_POST['btnAction'] == 'Update')
@@ -64,13 +58,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
      deleteMeal($_POST['meal_to_delete']);
      $list_of_meals = getMeals();
   }
+  else if($_POST['btnAction'] == 'Eats')
+  {
+    $Eat_Name = getMealNameByID($_POST['meal_to_eat']);
+    $Calories = getMealCaloriesByID($_POST['meal_to_eat']);
+    $EatID = addEaten($Eat_Name,$Calories);
+    addEats($_SESSION['UserID'],$EatID[0]);
+  }
 }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-<div class=container-4>
-  <h2>Add or Update a Meal</h2>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="your name">
+  <meta name="description" content="include some description about your page">      
+  <title>DB interfacing</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="icon" type="image/png" href="http://www.cs.virginia.edu/~up3f/cs4750/images/db-icon.png" />
+</head>
+<div class="container">
+  <h1>Meals</h1>  
 
 <form name="mainForm" action="mealForm.php" method="post">
   <div class="row mb-3 mx-3">
@@ -86,69 +96,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <div class="row mb-3 mx-3">
     Serving Size:
     <input type="text" class="form-control" name="Serving_Size" required
-    />     
-       
-  </div> 
-
+    />          
+  </div>  
   <div class="row mb-3 mx-3">    
-    <input type="submit" value="Add" name="btnAction" class="button-orange2" 
+    <input type="submit" value="Add" name="btnAction" class="btn btn-dark" 
            title="Insert a Meal" />
-    <input type="submit" value="Confirm update" name="btnAction" class="button-orange2" 
+    <input type="submit" value="Confirm update" name="btnAction" class="btn btn-primary" 
            title="Update a Meal" />  
   </div>  
 
-  <br>  
-  <h2>List of All Meals</h2>  
-
-  
 </form>       
+<h3>List of Meals</h3>
 <div class="row justify-content-center">  
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
   <thead>
-  <tr style="background-color:#fff">
- 
-    
-    <tr>
-    <th>
-  <div class="stuff">
-  Meal ID
-  </div>
-</th>
-
-<th>
-  <div class="stuff">
-  Meal Name
-  </div>
-</th>
-
-<th>
-  <div class="stuff">
-  Calories
-  </div>
-</th>
-
-<th>
-  <div class="stuff">
-  Serving Size?
-  </div>
-</th>
-<th>
-  <div class="stuff">
-    Delete?
-  </div>
-</th>
-
-<th>
-  <div class="stuff">
-    Update?
-  </div>
-</th>
-
-
-  </tr>
+  <tr style="background-color:#B0B0B0">
+    <th width="30%"><b>Meal ID</b></th>
+    <th width="30%"><b>Meal Name</b></th>
+    <th width="30%"><b>Calories</b></th>
+    <th width="30%"><b>Serving Size</b></th>
+        <th><b>Update?</b></th>
+    <th><b>Delete?</b></th>
+    <th><b>Eat?</b></th>
   </tr>
   </thead>
-  <br>
 <?php foreach ($list_of_meals as $meal_info): ?>
   <tr>
      <td><?php echo $meal_info['MealID']; ?></td>
@@ -156,10 +127,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
      <td><?php echo $meal_info['Calories']; ?></td>
      <td><?php echo $meal_info['Serving_Size']; ?></td>
      <td>
-     <br>  
-
              <form action="mealForm.php" method="post">
-          <input type="submit" value="Update" name="btnAction" class="button-orange" 
+          <input type="submit" value="Update" name="btnAction" class="btn btn-primary" 
                 title="Click to update this meal" />
           <input type="hidden" name="meal_to_update" 
                 value="<?php echo $meal_info['MealID']; ?>"
@@ -167,12 +136,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         </form>
 	     </td>
 	          <td>
-            <br>
-
              <form action="mealForm.php" method="post">
-          <input type="submit" value="Delete" name="btnAction" class="button-orange" 
+          <input type="submit" value="Delete" name="btnAction" class="btn btn-primary" 
                 title="Click to delete this meal" />
           <input type="hidden" name="meal_to_delete" 
+                value="<?php echo $meal_info['MealID']; ?>"
+          />                
+        </form>
+	     </td>
+       <td>
+             <form action="mealForm.php" method="post">
+          <input type="submit" value="Eats" name="btnAction" class="btn btn-primary" 
+                title="Click to eat this meal" />
+          <input type="hidden" name="meal_to_eat" 
                 value="<?php echo $meal_info['MealID']; ?>"
           />                
         </form>
