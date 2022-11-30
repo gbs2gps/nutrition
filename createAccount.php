@@ -2,19 +2,26 @@
 <html>
 
 <head>
+
     <title>Nutrilitics</title>
+
     <link rel="stylesheet" href="admin.css">
+
 </head>
+<div class=container-4>
+<br>
+</div>
+
 
         <div class="logo-dark">Welcome to Nutrilitics! Please Create an Account</div>
          
         <input class="dark-light" type="checkbox" id="dark-light" name="dark-light"/>
             <label for="dark-light"></label>
-	
+
             <form action="createAccount.php" method="POST" class= "logo-light2">
                 <div class="insert-info">
                     Username: 
-                    <input type="text" name="username" placeholder="Enter Username">
+                    <input type="text" name="username" placeholder="Enter Username"> <br>
                     Password: 
                     <input type="text" name="pwd" placeholder="Enter Password">
                     <br>
@@ -22,12 +29,16 @@
                     Daily Calories Goal: 
                     <input type="text" name="Calories_Goal" placeholder="Enter Daily Calories Goal">
                     <br>
+
 </div>
-<br>
-                    <input type="submit" name="submit" value="Create Account" class="button-submit">
-                    <input type="submit" name="submit" value="Login" class="button-submit">
+<br>    
+<div class=container-3>
+                    <input type="submit" name="submit" value="Create Account" class="button-orange2">
+                    <input type="submit" name="submit" value="Login" class="button-orange2">
 
                 </form>
+                </div>
+
 
                     </div>
                 </input>
@@ -55,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       addUser($_POST['username'],password_hash($_POST['pwd'], PASSWORD_DEFAULT),$_POST['Calories_Goal']);
       $_SESSION['username'] = $_POST['username'];
       $_SESSION['UserID'] = getUserID($_POST['username']);
-      header('Location: base.php');
+      header('Location: index.php');
 }
     else {
         header('Location: createAcount.php');
@@ -104,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
              $_SESSION['UserID'] = getUserID($_POST['username']);
              
              // redirect the browser to another page using the header() function to specify the target URL
-             header('Location: base.php');
+             header('Location: index.php');
           }
        }
     }

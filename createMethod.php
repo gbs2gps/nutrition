@@ -100,7 +100,6 @@ function getUserID($Username)
 {
     global $db;
     $query = "SELECT * FROM Users where UserID = :UserID";
-
     $statement = $db->prepare($query);
     $statement->bindValue(':UserID', $UserID);
     $statement->execute();
