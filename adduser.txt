@@ -1,0 +1,29 @@
+function addUser($Password, $Calories_Goal)
+{
+    global $db;
+    $query = "INSERT INTO Users(Password, Calories_Goal) VALUES (:Password:Calories_Goal)";  
+    try {
+	Password = password_hash(Password, PASSWORD_BCRYPT)
+        $statement = $db->prepare($query);
+        $statement->bindValue(':Password', $Password);
+        $statement->bindValue(':Calories_Goal', $Calories_Goal);
+        $statement->execute();
+        $statement->closeCursor();
+
+        // if ($statement->rowCount() == 0)
+        //     echo "Failed to add user <br/>";
+    }
+    catch (PDOException $e) 
+    {
+        // echo $e->getMessage();
+        // if there is a specific SQL-related error message
+        //    echo "generic message (don't reveal SQL-specific message)";
+
+        if (str_contains($e->getMessage(), "Duplicate"))
+		   echo "Failed to add a user <br/>";
+    }
+    catch (Exception $e)
+    {
+        echo $e->getMessage();
+    }
+}
