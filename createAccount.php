@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Nutralytics</title>
+    <title>Nutrilitics</title>
     <link rel="stylesheet" href="admin.css">
 </head>
 
